@@ -1,14 +1,16 @@
 body {
-  background-color: green;
-}
-
-h1 {
-  color: white;
-  text-align: center;
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 50px; 
+  background-attachment: fixed;
+  background-image: url("../assets/Taiwan_pic5.jpg");
 }
 
 p {
   text-shadow: 1px 1px 2px white, 0 0 1em white, 0 0 0.2em white;
-  font-family: verdana;
-  font-size: 20px;
+}
+
+#big {
+  width: 1000px;
+  height:600px; 
+  object-fit: cover;
 }
