@@ -74,3 +74,27 @@ function DisplayBad() {
     bodyp.style.backgroundImage = "url('assets/cheesecake_pic1.jpg'), url('assets/cheesecake_pic3.jpg')";
     bodyp.style.backgroundRepeat = "no-repeat, repeat"; 
 }
+
+function showBetter() {
+  let betterText = document.getElementById("better");
+  let bodyp = document.getElementById( "bodyp" );
+  let paragraphs = document.getElementsByTagName("p");
+  let images = document.getElementsByTagName("img");
+  let size = paragraphs.length;
+
+  let i;
+  for ( i = 0; i < size; i++ ) {
+    paragraphs[i].style.display = "none";
+  }
+
+  let size = images.length;
+
+  for ( i = 0; i < size; i++ ) {
+    images[i].style.display = "none";
+  }
+
+  betterText.style.display = "block";
+  betterText.style.color = "Violet";
+  bodyp.style.backgroundImage = "url('assets/fat_pic6.jpg')";
+  bodyp.style.backgroundRepeat = "no-repeat"    
+}
