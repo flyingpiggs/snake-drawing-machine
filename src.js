@@ -4,6 +4,8 @@
 //paragraphs[0].innerHTML = "Hello!";  
 
 function DisplayWeird() {
+
+    let bodyp = document.getElementById( "bodyp" );
     let goodElements = document.getElementsByClassName("good");
     let weirdElements = document.getElementsByClassName("weird");
     let badElements = document.getElementsByClassName("bad");
@@ -19,11 +21,15 @@ function DisplayWeird() {
     weirdElements[1].style.display = "block";
     weirdButton.style.display = "none"; 
     badButton.style.display = "inline"; 
-    goodButton.style.display = "inline"; 
+    goodButton.style.display = "inline";
+    bodyp.style.color = "DarkSalmon";
+    bodyp.style.backgroundImage = 'url("assets/cheesecake_pic4.jpg")';
+    bodyp.style.backgroundRepeat = "repeat"; 
 }
 
 function DisplayGood() {
 
+    let bodyp = document.getElementById( "bodyp" );   
     let goodElements = document.getElementsByClassName("good");
     let weirdElements = document.getElementsByClassName("weird");
     let badElements = document.getElementsByClassName("bad");
@@ -39,11 +45,15 @@ function DisplayGood() {
     weirdElements[1].style.display = "none";
     weirdButton.style.display = "inline"; 
     badButton.style.display = "inline"; 
-    goodButton.style.display = "none"; 
+    goodButton.style.display = "none";
+    bodyp.style.color = "DarkTurquoise";
+    bodyp.style.backgroundImage = "url('assets/cheesecake_pic8.jpg'), url('assets/cheesecake_pic9.jpg')"; 
+    bodyp.style.backgroundRepeat = "no-repeat, repeat";
 }
 
 function DisplayBad() {
 
+    let bodyp = document.getElementById( "bodyp" );
     let goodElements = document.getElementsByClassName("good");
     let weirdElements = document.getElementsByClassName("weird");
     let badElements = document.getElementsByClassName("bad");
@@ -59,5 +69,8 @@ function DisplayBad() {
     weirdElements[1].style.display = "none";
     weirdButton.style.display = "inline"; 
     badButton.style.display = "none"; 
-    goodButton.style.display = "inline"; 
+    goodButton.style.display = "inline";
+    bodyp.style.color = "DarkSlateGrey"; 
+    bodyp.style.backgroundImage = "url('assets/cheesecake_pic1.jpg'), url('assets/cheesecake_pic3.jpg')";
+    bodyp.style.backgroundRepeat = "no-repeat, repeat"; 
 }

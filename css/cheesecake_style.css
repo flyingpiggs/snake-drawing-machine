@@ -1,3 +1,18 @@
 .weird, .good {
   display : none; 
 }
+
+body {
+  font-family: 'Lobster', cursive;
+  color: DarkSlateGrey; 
+  font-size: 50px;
+  background-image: url("../assets/cheesecake_pic1.jpg"), url("../assets/cheesecake_pic3.jpg"); 
+  background-attachment: fixed; 
+  /*background-size: 50% 50%, 50% 50%;*/
+  background-position: right bottom, left top;
+  background-repeat: no-repeat, repeat; 
+}
+
+p {
+  text-shadow: 1px 1px 2px white, 0 0 1em white, 0 0 0.2em white;
+}
