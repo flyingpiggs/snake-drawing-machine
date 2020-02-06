@@ -87,8 +87,7 @@ function showBetter() {
     paragraphs[i].style.display = "none";
   }
 
-  let size = images.length;
-
+  size = images.length;
   for ( i = 0; i < size; i++ ) {
     images[i].style.display = "none";
   }
