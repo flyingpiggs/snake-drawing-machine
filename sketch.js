@@ -1,3 +1,6 @@
+// Source: https://p5js.org/examples/interaction-snake-game.html
+// Author of original code: Prashant Gupta, Github: https://github.com/prashantgupta24
+
 
 // the snake is divided into small segments, which are drawn and edited on each 'draw' call
 let numSegments = 10;
@@ -42,7 +45,7 @@ function draw() {
   checkForFruit();
 }
 
-/*
+/*  Prashant Gupta
  The segments are updated based on the direction of the snake.
  All segments from 0 to n-1 are just copied over to 1 till n, i.e. segment 0
  gets the value of segment 1, segment 1 gets the value of segment 2, and so on,
@@ -78,7 +81,7 @@ function updateSnakeCoordinates() {
   }
 }
 
-/*
+/*  Prashant Gupta
  I always check the snake's head position xCor[xCor.length - 1] and
  yCor[yCor.length - 1] to see if it touches the game's boundaries
  or if the snake hits itself.
@@ -97,7 +100,7 @@ function checkGameStatus() {
   }
 }
 
-/*
+/*  Prashant Gupta
  If the snake hits itself, that means the snake head's (x,y) coordinate
  has to be the same as one of its own segment's (x,y) coordinate.
 */
@@ -111,7 +114,7 @@ function checkSnakeCollision() {
   }
 }
 
-/*
+/*  Prashant Gupta
  Whenever the snake consumes a fruit, I increment the number of segments,
  and just insert the tail segment again at the start of the array (basically
  I add the last segment again at the tail, thereby extending the tail)
@@ -129,7 +132,7 @@ function checkForFruit() {
 }
 
 function updateFruitCoordinates() {
-  /*
+  /*  Prashant Gupta
     The complex math logic is because I wanted the point to lie
     in between 100 and width-100, and be rounded off to the nearest
     number divisible by 10, since I move the snake in multiples of 10.
