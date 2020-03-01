@@ -2,12 +2,13 @@
 // Author of original code: Prashant Gupta, Github: https://github.com/prashantgupta24
 
 
+//  Prashant Gupta
 // the snake is divided into small segments, which are drawn and edited on each 'draw' call
 let numSegments = 10;
 let direction = 'right';
 
-const xStart = 0; //starting x coordinate for snake
-const yStart = 250; //starting y coordinate for snake
+const xStart = 0; //starting x coordinate for snake,  Prashant Gupta
+const yStart = 250; //starting y coordinate for snake,  Prashant Gupta
 const diff = 10;
 
 let xCor = [];
