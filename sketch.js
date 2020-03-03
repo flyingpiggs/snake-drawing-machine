@@ -19,6 +19,10 @@ let xFruit = 0;
 let yFruit = 0;
 let scoreElem;
 
+const bgColor = 100; //grey 
+const bgAlpha = 40;
+const snakeColor = 0; //white
+
 function setup() {
   scoreElem = createDiv('Score = 0');
   scoreElem.position(20, 20);
@@ -27,10 +31,10 @@ function setup() {
 
   createCanvas(800, 800);
   frameRate(15);
-  stroke(255);
+  stroke(snakeColor);
   strokeWeight(10);
   updateFruitCoordinates();
-  background(0);
+  background(bgColor);
 
   for (let i = 0; i < numSegments; i++) {
     xCor.push(xStart + i * diff);
@@ -41,11 +45,9 @@ function setup() {
 function draw() {
   //background(0);
   push()
-  stroke(0);
+  stroke(bgColor);
   strokeWeight(15);
   line(xCor[0], yCor[0], xCor[1], yCor[1]);
-  //stroke(255);
-  //strokeWeight(10);
   pop(); 
   for (let i = 1; i < numSegments - 1; i++) {
     line(xCor[i], yCor[i], xCor[i + 1], yCor[i + 1]);
@@ -137,15 +139,16 @@ function checkForFruit() {
   //The added loop will give us the extra fruits
   for ( let i = 0; i < extraFruits.length; i++ ) {
     push()
+    stroke( extraFruits[i].c );
     if ( extraFruits[i].beenEaten ) {
-      strokeWeight(15);
-      stroke(0);
-      point(extraFruits[i].x, extraFruits[i].y);
-    } else {
-      stroke( extraFruits[i].c );
+      fill( extraFruits[i].c ); 
+      rotatingStar( extraFruits[i].x - 100, extraFruits[i].y - 100, extraFruits[i].length1, extraFruits[i].length2, 
+      ceil( random(25) ), extraFruits[i].rotationSpeed ); 
+    } else {  
       point(extraFruits[i].x, extraFruits[i].y); 
     }
-    pop()
+    pop(); 
+
     if ( xCor[xCor.length - 1] === extraFruits[i].x && 
         yCor[yCor.length - 1] === extraFruits[i].y &&
         !extraFruits[i].beenEaten ) {
@@ -154,7 +157,12 @@ function checkForFruit() {
       xCor.unshift(xCor[0]);
       yCor.unshift(yCor[0]);
       numSegments++;
-      extraFruits[i].beenEaten = true;       
+      extraFruits[i].beenEaten = true;
+      push();
+      strokeWeight(15);
+      stroke(bgColor);
+      point(extraFruits[i].x, extraFruits[i].y);  
+      pop();     
     } 
   }
   if (xCor[xCor.length - 1] === xFruit && yCor[yCor.length - 1] === yFruit) {
@@ -209,18 +217,38 @@ function mouseClicked() {
   let roundedY = floor( mouseY );
   roundedX = 100 + roundedX - ( roundedX % 10 );
   roundedY = 100 + roundedY - ( roundedY % 10 );
-  let _c = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor ( random( 255 ) ) ); 
+  let _c = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor ( random( 255 ) ), ceil ( random( 100, 255 ) ) ); 
+  //let shape = floor( random(4) ); 
+  /*
+    0 -> Star
+    1 -> Triangle
+    2 -> Rect
+    3 -> circle/ellipse 
+  */ 
 
-  let coordinate = { x: roundedX, y: roundedY, beenEaten: false, c : _c };
+  let coordinate = { 
+    x: roundedX, 
+    y: roundedY,
+    length1 : floor( random( 10, 101 ) ),
+    length2: floor( random( 10, 101 ) ),
+    beenEaten: false, 
+    c : _c, 
+    shiftVal : 0,
+    shape : floor( random(4) ),
+    rotationSpeed : ceil( random(100) )  
+  };
   extraFruits.push( coordinate ); 
   return false; 
 }
 
 
 /* Source: https://p5js.org/examples/form-star.html */
-function star(x, y, radius1, radius2, npoints) {
+function rotatingStar(x, y, radius1, radius2, npoints, rotationSpeed) {
   let angle = TWO_PI / npoints;
   let halfAngle = angle / 2.0;
+  //push();
+  strokeWeight( ceil( random(5) ) ); 
+  rotate( frameCount / rotationSpeed );  
   beginShape();
   for (let a = 0; a < TWO_PI; a += angle) {
     let sx = x + cos(a) * radius2;
@@ -231,6 +259,7 @@ function star(x, y, radius1, radius2, npoints) {
     vertex(sx, sy);
   }
   endShape(CLOSE);
+  //pop(); 
 }
 
 /* Some random code I was playing around with that uses the star function
