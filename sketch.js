@@ -30,6 +30,7 @@ function setup() {
   stroke(255);
   strokeWeight(10);
   updateFruitCoordinates();
+  background(0);
 
   for (let i = 0; i < numSegments; i++) {
     xCor.push(xStart + i * diff);
@@ -38,8 +39,15 @@ function setup() {
 }
 
 function draw() {
-  background(0);
-  for (let i = 0; i < numSegments - 1; i++) {
+  //background(0);
+  push()
+  stroke(0);
+  strokeWeight(15);
+  line(xCor[0], yCor[0], xCor[1], yCor[1]);
+  //stroke(255);
+  //strokeWeight(10);
+  pop(); 
+  for (let i = 1; i < numSegments - 1; i++) {
     line(xCor[i], yCor[i], xCor[i + 1], yCor[i + 1]);
   }
   updateSnakeCoordinates();
@@ -129,8 +137,14 @@ function checkForFruit() {
   //The added loop will give us the extra fruits
   for ( let i = 0; i < extraFruits.length; i++ ) {
     push()
-    stroke( floor ( random( 255 ) ), floor ( random( 255 ) ), floor ( random( 255 ) ) );  
-    point(extraFruits[i].x, extraFruits[i].y);
+    if ( extraFruits[i].beenEaten ) {
+      strokeWeight(15);
+      stroke(0);
+      point(extraFruits[i].x, extraFruits[i].y);
+    } else {
+      stroke( extraFruits[i].c );
+      point(extraFruits[i].x, extraFruits[i].y); 
+    }
     pop()
     if ( xCor[xCor.length - 1] === extraFruits[i].x && 
         yCor[yCor.length - 1] === extraFruits[i].y &&
@@ -194,9 +208,10 @@ function mouseClicked() {
   let roundedX = floor( mouseX );
   let roundedY = floor( mouseY );
   roundedX = 100 + roundedX - ( roundedX % 10 );
-  roundedY = 100 + roundedY - ( roundedY % 10 ); 
+  roundedY = 100 + roundedY - ( roundedY % 10 );
+  let _c = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor ( random( 255 ) ) ); 
 
-  let coordinate = { x: roundedX, y: roundedY, beenEaten: false };
+  let coordinate = { x: roundedX, y: roundedY, beenEaten: false, c : _c };
   extraFruits.push( coordinate ); 
   return false; 
 }
