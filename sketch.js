@@ -13,6 +13,7 @@ const diff = 10;
 
 let xCor = [];
 let yCor = [];
+let extraFruits = []; 
 
 let xFruit = 0;
 let yFruit = 0;
@@ -120,8 +121,28 @@ function checkSnakeCollision() {
  and just insert the tail segment again at the start of the array (basically
  I add the last segment again at the tail, thereby extending the tail)
 */
+
+
 function checkForFruit() {
   point(xFruit, yFruit);
+
+  //The added loop will give us the extra fruits
+  for ( let i = 0; i < extraFruits.length; i++ ) {
+    push()
+    stroke( floor ( random( 255 ) ), floor ( random( 255 ) ), floor ( random( 255 ) ) );  
+    point(extraFruits[i].x, extraFruits[i].y);
+    pop()
+    if ( xCor[xCor.length - 1] === extraFruits[i].x && 
+        yCor[yCor.length - 1] === extraFruits[i].y &&
+        !extraFruits[i].beenEaten ) {
+      const prevScore = parseInt(scoreElem.html().substring(8));
+      scoreElem.html('Score = ' + (prevScore + 1));
+      xCor.unshift(xCor[0]);
+      yCor.unshift(yCor[0]);
+      numSegments++;
+      extraFruits[i].beenEaten = true;       
+    } 
+  }
   if (xCor[xCor.length - 1] === xFruit && yCor[yCor.length - 1] === yFruit) {
     const prevScore = parseInt(scoreElem.html().substring(8));
     scoreElem.html('Score = ' + (prevScore + 1));
@@ -168,3 +189,67 @@ function keyPressed() {
   }
 }
 
+function mouseClicked() {
+
+  let roundedX = floor( mouseX );
+  let roundedY = floor( mouseY );
+  roundedX = 100 + roundedX - ( roundedX % 10 );
+  roundedY = 100 + roundedY - ( roundedY % 10 ); 
+
+  let coordinate = { x: roundedX, y: roundedY, beenEaten: false };
+  extraFruits.push( coordinate ); 
+  return false; 
+}
+
+
+/* Source: https://p5js.org/examples/form-star.html */
+function star(x, y, radius1, radius2, npoints) {
+  let angle = TWO_PI / npoints;
+  let halfAngle = angle / 2.0;
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += angle) {
+    let sx = x + cos(a) * radius2;
+    let sy = y + sin(a) * radius2;
+    vertex(sx, sy);
+    sx = x + cos(a + halfAngle) * radius1;
+    sy = y + sin(a + halfAngle) * radius1;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+}
+
+/* Some random code I was playing around with that uses the star function
+   It basically shifts and rotates the provided stars around. */
+
+/*
+function setup() {
+  createCanvas(720, 400);
+  background(102);
+}
+
+let counter = 0; 
+
+function draw() {
+  //background(102);
+
+  push();
+  translate(width * 0.2, height * 0.5);
+  rotate(frameCount / 200.0);
+  star(counter, 0, 5, 70, 3);
+  pop();
+
+  push();
+  translate(width * 0.5, height * 0.5);
+  rotate(frameCount / 50.0);
+  star(counter, 0, 80, 100, 40);
+  pop();
+
+  push();
+  translate(width * 0.8, height * 0.5);
+  rotate(frameCount / -100.0);
+  star(counter, 0, 30, 70, 5);
+  pop();
+  
+  counter++; 
+}
+*/
