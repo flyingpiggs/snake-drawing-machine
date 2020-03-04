@@ -141,9 +141,13 @@ function checkForFruit() {
     push()
     stroke( extraFruits[i].c );
     if ( extraFruits[i].beenEaten ) {
-      fill( extraFruits[i].c ); 
-      rotatingStar( extraFruits[i].x - 100, extraFruits[i].y - 100, extraFruits[i].length1, extraFruits[i].length2, 
-      ceil( random(25) ), extraFruits[i].rotationSpeed ); 
+      fill( extraFruits[i].fillColor );
+      translate( extraFruits[i].x, extraFruits[i].y );  
+      rotatingStar( extraFruits[i].shiftVal, 0, extraFruits[i].length1, extraFruits[i].length2, ceil( random( 3, 15 ) ), extraFruits[i].rotationSpeed );
+      extraFruits[i].shiftVal++;
+      if ( extraFruits[i].shiftVal > ( width / 2 ) ) {
+        extraFruits[i].shiftVal = 0; 
+      } 
     } else {  
       point(extraFruits[i].x, extraFruits[i].y); 
     }
@@ -227,7 +231,7 @@ function mouseClicked() {
   roundedX = 100 + roundedX - ( roundedX % 10 );
   roundedY = 100 + roundedY - ( roundedY % 10 );
   let _c = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor( random( 255 ) ) );
-  let _fillColor = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor( random( 255 ) ), ceil( random( 255 ) ) ); 
+  let _fillColor = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor( random( 255 ) ), ceil( random( 100 ) ) ); 
   //let shape = floor( random(4) ); 
   /*
     0 -> Star
