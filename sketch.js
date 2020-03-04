@@ -143,7 +143,7 @@ function checkForFruit() {
     if ( extraFruits[i].beenEaten ) {
       fill( extraFruits[i].fillColor );
       translate( extraFruits[i].x, extraFruits[i].y );  
-      rotatingStar( extraFruits[i].shiftVal, 0, extraFruits[i].length1, extraFruits[i].length2, 
+      rotatingStar( extraFruits[i].shiftVal, 0, extraFruits[i].length1 * random(), extraFruits[i].length2 * random(), 
       ceil( random( 3, 15 ) ), extraFruits[i].rotationSpeed, extraFruits[i].direction );
       extraFruits[i].shiftVal++;
       if ( extraFruits[i].shiftVal > ( width / 2 ) ) {
