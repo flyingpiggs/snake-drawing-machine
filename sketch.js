@@ -17,17 +17,17 @@ let extraFruits = [];
 
 let xFruit = 0;
 let yFruit = 0;
-let scoreElem;
+//let scoreElem;
 
 const bgColor = 100; //grey 
-const bgAlpha = 40;
+//const alphaVal = 40;
 const snakeColor = 0; //white
 
 function setup() {
-  scoreElem = createDiv('Score = 0');
+/*  scoreElem = createDiv('Score = 0');
   scoreElem.position(20, 20);
   scoreElem.id = 'score';
-  scoreElem.style('color', 'white');
+  scoreElem.style('color', 'white');*/
 
   createCanvas(800, 800);
   frameRate(15);
@@ -53,7 +53,7 @@ function draw() {
     line(xCor[i], yCor[i], xCor[i + 1], yCor[i + 1]);
   }
   updateSnakeCoordinates();
-  checkGameStatus();
+  //checkGameStatus();
   checkForFruit();
 }
 
@@ -107,8 +107,8 @@ function checkGameStatus() {
     checkSnakeCollision()
   ) {
     noLoop();
-    const scoreVal = parseInt(scoreElem.html().substring(8));
-    scoreElem.html('Game ended! Your score was : ' + scoreVal);
+    //const scoreVal = parseInt(scoreElem.html().substring(8));
+    //scoreElem.html('Game ended! Your score was : ' + scoreVal);
   }
 }
 
@@ -152,8 +152,8 @@ function checkForFruit() {
     if ( xCor[xCor.length - 1] === extraFruits[i].x && 
         yCor[yCor.length - 1] === extraFruits[i].y &&
         !extraFruits[i].beenEaten ) {
-      const prevScore = parseInt(scoreElem.html().substring(8));
-      scoreElem.html('Score = ' + (prevScore + 1));
+      /*const prevScore = parseInt(scoreElem.html().substring(8));
+      scoreElem.html('Score = ' + (prevScore + 1)); */
       xCor.unshift(xCor[0]);
       yCor.unshift(yCor[0]);
       numSegments++;
@@ -166,8 +166,8 @@ function checkForFruit() {
     } 
   }
   if (xCor[xCor.length - 1] === xFruit && yCor[yCor.length - 1] === yFruit) {
-    const prevScore = parseInt(scoreElem.html().substring(8));
-    scoreElem.html('Score = ' + (prevScore + 1));
+    /*const prevScore = parseInt(scoreElem.html().substring(8));
+    scoreElem.html('Score = ' + (prevScore + 1));*/
     xCor.unshift(xCor[0]);
     yCor.unshift(yCor[0]);
     numSegments++;
@@ -208,6 +208,15 @@ function keyPressed() {
         direction = 'down';
       }
       break;
+    case 80:
+      noLoop();
+      break;
+    case 79:
+      loop();
+      break;
+    case 83:
+      saveCanvas('snakeDrawingMachine', 'jpg' ); 
+      break; 
   }
 }
 
@@ -217,7 +226,8 @@ function mouseClicked() {
   let roundedY = floor( mouseY );
   roundedX = 100 + roundedX - ( roundedX % 10 );
   roundedY = 100 + roundedY - ( roundedY % 10 );
-  let _c = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor ( random( 255 ) ), ceil ( random( 100, 255 ) ) ); 
+  let _c = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor( random( 255 ) ) );
+  let _fillColor = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor( random( 255 ) ), ceil( random( 255 ) ) ); 
   //let shape = floor( random(4) ); 
   /*
     0 -> Star
@@ -232,10 +242,11 @@ function mouseClicked() {
     length1 : floor( random( 10, 101 ) ),
     length2: floor( random( 10, 101 ) ),
     beenEaten: false, 
-    c : _c, 
+    c : _c,
+    fillColor : _fillColor, 
     shiftVal : 0,
-    shape : floor( random(4) ),
-    rotationSpeed : ceil( random(100) )  
+    //shape : floor( random(4) ),
+    rotationSpeed : ceil( random(150) )  
   };
   extraFruits.push( coordinate ); 
   return false; 
