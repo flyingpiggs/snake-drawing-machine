@@ -143,7 +143,8 @@ function checkForFruit() {
     if ( extraFruits[i].beenEaten ) {
       fill( extraFruits[i].fillColor );
       translate( extraFruits[i].x, extraFruits[i].y );  
-      rotatingStar( extraFruits[i].shiftVal, 0, extraFruits[i].length1, extraFruits[i].length2, ceil( random( 3, 15 ) ), extraFruits[i].rotationSpeed );
+      rotatingStar( extraFruits[i].shiftVal, 0, extraFruits[i].length1, extraFruits[i].length2, 
+      ceil( random( 3, 15 ) ), extraFruits[i].rotationSpeed, extraFruits[i].direction );
       extraFruits[i].shiftVal++;
       if ( extraFruits[i].shiftVal > ( width / 2 ) ) {
         extraFruits[i].shiftVal = 0; 
@@ -231,7 +232,8 @@ function mouseClicked() {
   roundedX = 100 + roundedX - ( roundedX % 10 );
   roundedY = 100 + roundedY - ( roundedY % 10 );
   let _c = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor( random( 255 ) ) );
-  let _fillColor = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor( random( 255 ) ), ceil( random( 100 ) ) ); 
+  let _fillColor = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor( random( 255 ) ), ceil( random( 100 ) ) );
+  let _direction = random( [1, -1] ); 
   //let shape = floor( random(4) ); 
   /*
     0 -> Star
@@ -250,7 +252,8 @@ function mouseClicked() {
     fillColor : _fillColor, 
     shiftVal : 0,
     //shape : floor( random(4) ),
-    rotationSpeed : ceil( random(150) )  
+    rotationSpeed : ceil( random(150) ),
+    direction : _direction
   };
   extraFruits.push( coordinate ); 
   return false; 
@@ -258,12 +261,12 @@ function mouseClicked() {
 
 
 /* Source: https://p5js.org/examples/form-star.html */
-function rotatingStar(x, y, radius1, radius2, npoints, rotationSpeed) {
+function rotatingStar(x, y, radius1, radius2, npoints, rotationSpeed, direction) {
   let angle = TWO_PI / npoints;
   let halfAngle = angle / 2.0;
   //push();
   strokeWeight( ceil( random(5) ) ); 
-  rotate( frameCount / rotationSpeed );  
+  rotate( ( direction * frameCount ) / rotationSpeed );  
   beginShape();
   for (let a = 0; a < TWO_PI; a += angle) {
     let sx = x + cos(a) * radius2;
