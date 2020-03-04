@@ -180,6 +180,33 @@ function checkForFruit() {
   }
 }
 
+function moveSnake() {
+  if ( xCor[xCor.length - 1] > width ||
+    xCor[xCor.length - 1] < 0 ||
+    yCor[yCor.length - 1] > height ||
+    yCor[yCor.length - 1] < 0 || 
+    xCor[0] == xCor[xCor.length - 1] || 
+    yCor[0] == yCor[yCor.length - 1] ) {
+
+    let choseDirection = random( [1, 2] );
+    if ( direction == "right" || direction == "left" ) {
+      
+      if ( newDirection == 1 ) {
+        direction = "up"; 
+      } else {
+        direction = "down"; 
+      }
+
+    } else {
+      if ( newDirection == 1 ) {
+        direction = "right"; 
+      } else {
+        direction = "left"; 
+      }
+    } 
+  }
+}
+
 function updateFruitCoordinates() {
   /*  Prashant Gupta
     The complex math logic is because I wanted the point to lie
