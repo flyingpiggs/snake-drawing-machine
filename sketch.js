@@ -188,8 +188,17 @@ function checkForFruit() {
           rotate( ( extraFruits[i].direction * frameCount ) / extraFruits[i].rotationSpeed );
           translate( extraFruits[i].shiftVal, extraFruits[i].shiftVal ); //maybe pass 0 as the other parameter
           if ( extraFruits[i].shape == 1 ) {
-            //Draw triangles
-            triangle( 0, 0, extraFruits[i].length1 / 2, extraFruits[i].length2, extraFruits[i].length1, 0 );
+            /*
+               Draw triangles, parameter passed syntax is point1, p2, then p3
+               They were chosen so that the triangle shapes wouldn't always be
+               isocles or right triangles.
+            */
+            let temp = ceil( random( 0, 8 ) );
+            triangle(
+              extraFruits[i].length1 / ( temp + 2 ), 0,
+              0, extraFruits[i].length2 / ( temp - 2 ),
+              extraFruits[i].length1, extraFruits[i].length2
+             );
           } else if ( extraFruits[i].shape == 2 ) {
             //rectangles/squares
           } else if ( extraFruits[i].shape == 3 ) {
