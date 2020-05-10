@@ -22,6 +22,7 @@ let yFruit = 0;
 const bgColor = 100; //grey
 //const alphaVal = 40;
 const snakeColor = 0; //white
+const ADJUSTMENT_CONST = 8;
 
 /*
   State variables
@@ -201,8 +202,14 @@ function checkForFruit() {
              );
           } else if ( extraFruits[i].shape == 2 ) {
             //rectangles/squares
+            let xAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+            let yAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+            rect( 0, 0, extraFruits[i].length1 + xAdjustment, extraFruits[i].length2 + yAdjustment );
           } else if ( extraFruits[i].shape == 3 ) {
             //ellipses/circles
+            let xAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+            let yAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+            ellipse( 0, 0, extraFruits[i].length1 + xAdjustment, extraFruits[i].length2 + yAdjustment );
           } else {
             console.log( 'Unknown shape state' );
           }
