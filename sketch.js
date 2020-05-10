@@ -13,15 +13,34 @@ const diff = 10;
 
 let xCor = [];
 let yCor = [];
-let extraFruits = []; 
+let extraFruits = [];
 
 let xFruit = 0;
 let yFruit = 0;
 //let scoreElem;
 
-const bgColor = 100; //grey 
+const bgColor = 100; //grey
 //const alphaVal = 40;
 const snakeColor = 0; //white
+
+/*
+  State variables
+    Each of them will be controlled by a key, and each toggle of the key will
+    increment the state, thus cycling through all the possible states.
+*/
+let whatShape = 0;
+/*
+  0 - random shapes, default state
+  1 - triangles
+  2 - quadralaterals
+  3 - pentagon
+*/
+let shapeDirection = 0;
+/*
+  0 - just spirals, default state
+  1 - left to right
+  2 - up then down
+*/
 
 function setup() {
 /*  scoreElem = createDiv('Score = 0');
@@ -29,7 +48,7 @@ function setup() {
   scoreElem.id = 'score';
   scoreElem.style('color', 'white');*/
 
-  createCanvas(800, 800);
+  createCanvas(800, 600);
   frameRate(15);
   stroke(snakeColor);
   strokeWeight(10);
@@ -48,14 +67,14 @@ function draw() {
   stroke(bgColor);
   strokeWeight(15);
   line(xCor[0], yCor[0], xCor[1], yCor[1]);
-  pop(); 
+  pop();
   for (let i = 1; i < numSegments - 1; i++) {
     line(xCor[i], yCor[i], xCor[i + 1], yCor[i + 1]);
   }
   updateSnakeCoordinates();
   //checkGameStatus();
   checkForFruit();
-  moveSnake(); 
+  moveSnake();
 }
 
 /*  Prashant Gupta
@@ -143,19 +162,19 @@ function checkForFruit() {
     stroke( extraFruits[i].c );
     if ( extraFruits[i].beenEaten ) {
       fill( extraFruits[i].fillColor );
-      translate( extraFruits[i].x, extraFruits[i].y );  
-      rotatingStar( extraFruits[i].shiftVal, 0, extraFruits[i].length1 * random(), extraFruits[i].length2 * random(), 
+      translate( extraFruits[i].x, extraFruits[i].y );
+      rotatingStar( extraFruits[i].shiftVal, 0, extraFruits[i].length1 * random(), extraFruits[i].length2 * random(),
       ceil( random( 3, 15 ) ), extraFruits[i].rotationSpeed, extraFruits[i].direction );
       extraFruits[i].shiftVal++;
       if ( extraFruits[i].shiftVal > ( width / 2 ) ) {
-        extraFruits[i].shiftVal = 0; 
-      } 
-    } else {  
-      point(extraFruits[i].x, extraFruits[i].y); 
+        extraFruits[i].shiftVal = 0;
+      }
+    } else {
+      point(extraFruits[i].x, extraFruits[i].y);
     }
-    pop(); 
+    pop();
 
-    if ( xCor[xCor.length - 1] === extraFruits[i].x && 
+    if ( xCor[xCor.length - 1] === extraFruits[i].x &&
         yCor[yCor.length - 1] === extraFruits[i].y &&
         !extraFruits[i].beenEaten ) {
       /*const prevScore = parseInt(scoreElem.html().substring(8));
@@ -167,9 +186,9 @@ function checkForFruit() {
       push();
       strokeWeight(15);
       stroke(bgColor);
-      point(extraFruits[i].x, extraFruits[i].y);  
-      pop();     
-    } 
+      point(extraFruits[i].x, extraFruits[i].y);
+      pop();
+    }
   }
   if (xCor[xCor.length - 1] === xFruit && yCor[yCor.length - 1] === yFruit) {
     /*const prevScore = parseInt(scoreElem.html().substring(8));
@@ -185,23 +204,23 @@ function moveSnake() {
   if ( xCor[xCor.length - 1] > width ||
     xCor[xCor.length - 1] < 0 ||
     yCor[yCor.length - 1] > height ||
-    yCor[yCor.length - 1] < 0 /*|| 
-    xCor[0] == xCor[xCor.length - 1] || 
+    yCor[yCor.length - 1] < 0 /*||
+    xCor[0] == xCor[xCor.length - 1] ||
     yCor[0] == yCor[yCor.length - 1] */ ) {
 
     let newDirection = random( [1, 2] );
     if ( direction == "right" || direction == "left" ) {
-      
+
       if ( newDirection == 1 ) {
-        direction = "up"; 
+        direction = "up";
       } else {
-        direction = "down"; 
+        direction = "down";
       }
     } else {
       if ( newDirection == 1 ) {
-        direction = "right"; 
+        direction = "right";
       } else {
-        direction = "left"; 
+        direction = "left";
       }
     }
   }
@@ -220,35 +239,39 @@ function updateFruitCoordinates() {
 
 function keyPressed() {
   switch (keyCode) {
-    case 74:
+    case 74: // l
+    case 37: //left key
       if (direction !== 'right') {
         direction = 'left';
       }
       break;
-    case 76:
+    case 76: //j
+    case 39: //right key
       if (direction !== 'left') {
         direction = 'right';
       }
       break;
-    case 73:
+    case 73: // i
+    case 38: // up key
       if (direction !== 'down') {
         direction = 'up';
       }
       break;
-    case 75:
+    case 75: // k
+    case 40: // down key
       if (direction !== 'up') {
         direction = 'down';
       }
       break;
-    case 80:
+    case 80: // p - for pause
       noLoop();
       break;
-    case 79:
+    case 79: // o - because it's next to 'p'
       loop();
       break;
     case 83:
-      saveCanvas('snakeDrawingMachine', 'jpg' ); 
-      break; 
+      saveCanvas('snakeDrawingMachine', 'jpg' );
+      break;
   }
 }
 
@@ -260,30 +283,32 @@ function mouseClicked() {
   roundedY = 100 + roundedY - ( roundedY % 10 );
   let _c = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor( random( 255 ) ) );
   let _fillColor = color( floor ( random( 255 ) ), floor ( random( 255 ) ), floor( random( 255 ) ), ceil( random( 100 ) ) );
-  let _direction = random( [1, -1] ); 
-  //let shape = floor( random(4) ); 
+  let _direction = random( [1, -1] );
+  //let shape = floor( random(4) );
   /*
     0 -> Star
     1 -> Triangle
     2 -> Rect
-    3 -> circle/ellipse 
-  */ 
+    3 -> circle/ellipse
+  */
 
-  let coordinate = { 
-    x: roundedX, 
+  let coordinate = {
+    x: roundedX,
     y: roundedY,
     length1 : floor( random( 10, 101 ) ),
     length2: floor( random( 10, 101 ) ),
-    beenEaten: false, 
+    beenEaten: false,
     c : _c,
-    fillColor : _fillColor, 
+    fillColor : _fillColor,
     shiftVal : 0,
     //shape : floor( random(4) ),
     rotationSpeed : ceil( random(150) ),
     direction : _direction
-  };
-  extraFruits.push( coordinate ); 
-  return false; 
+  }; /* Default */
+
+
+  extraFruits.push( coordinate );
+  return false;
 }
 
 
@@ -292,8 +317,8 @@ function rotatingStar(x, y, radius1, radius2, npoints, rotationSpeed, direction)
   let angle = TWO_PI / npoints;
   let halfAngle = angle / 2.0;
   //push();
-  strokeWeight( ceil( random(5) ) ); 
-  rotate( ( direction * frameCount ) / rotationSpeed );  
+  strokeWeight( ceil( random(5) ) );
+  rotate( ( direction * frameCount ) / rotationSpeed );
   beginShape();
   for (let a = 0; a < TWO_PI; a += angle) {
     let sx = x + cos(a) * radius2;
@@ -304,7 +329,7 @@ function rotatingStar(x, y, radius1, radius2, npoints, rotationSpeed, direction)
     vertex(sx, sy);
   }
   endShape(CLOSE);
-  //pop(); 
+  //pop();
 }
 
 /* Some random code I was playing around with that uses the star function
@@ -316,7 +341,7 @@ function setup() {
   background(102);
 }
 
-let counter = 0; 
+let counter = 0;
 
 function draw() {
   //background(102);
@@ -338,7 +363,7 @@ function draw() {
   rotate(frameCount / -100.0);
   star(counter, 0, 30, 70, 5);
   pop();
-  
-  counter++; 
+
+  counter++;
 }
 */
