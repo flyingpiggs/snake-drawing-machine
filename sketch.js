@@ -6,6 +6,7 @@
 // the snake is divided into small segments, which are drawn and edited on each 'draw' call
 let numSegments = 10;
 let direction = 'right';
+let nextDirection = null;
 
 const xStart = 0; //starting x coordinate for snake,  Prashant Gupta
 const yStart = 250; //starting y coordinate for snake,  Prashant Gupta
@@ -56,10 +57,10 @@ function setup() {
   createCanvas(800, 600);
   frameRate(15);
   stroke(snakeColor);
-  strokeWeight(10);
   updateFruitCoordinates();
   background(bgColor);
-
+  displayIntro();
+  strokeWeight(10);
   for (let i = 0; i < numSegments; i++) {
     xCor.push(xStart + i * diff);
     yCor.push(yStart);
@@ -80,6 +81,33 @@ function draw() {
   //checkGameStatus();
   checkForFruit();
   moveSnake();
+}
+
+const INDENT_WIDTH = 5;
+const LINE_SPACING = 20;
+const INTRO = [
+  'Use the keypad or ijkl to move the snake',
+  'Click the mouse to drop fruits',
+  "Sorry, they're placed off-center",
+  'It\'s a "feature"',
+  'Snake will disappear offscreen',
+  'but should come right back once keys are pressed',
+  'Q controls the shape direction',
+  'W controls what kind of shape is drawn',
+  "Press 's' to save the image"  
+];
+
+function displayIntro() {
+  textSize( LINE_SPACING - 2 );
+  textFont('Arial');
+  DisplayText( INTRO );
+}
+
+function DisplayText( stringsToDisplay ) {
+  let size = stringsToDisplay.length;
+  for ( let i = 0; i < size; i++ ) {
+    text( stringsToDisplay[i], INDENT_WIDTH, LINE_SPACING * ( i + 1 ) );
+  }
 }
 
 /*  Prashant Gupta
@@ -167,6 +195,7 @@ function checkForFruit() {
     stroke( extraFruits[i].c );
     if ( extraFruits[i].beenEaten ) {
       fill( extraFruits[i].fillColor );
+      strokeWeight( ceil( random(5) ) );
       /* Sets the shape's "center" */
       translate( extraFruits[i].x, extraFruits[i].y );
 
@@ -177,7 +206,7 @@ function checkForFruit() {
           //spikey things
           rotatingStar(
             extraFruits[i].shiftVal,
-            0,
+            extraFruits[i].shiftVal,
             extraFruits[i].length1 * random(),
             extraFruits[i].length2 * random(),
             ceil( random( 3, 15 ) ),
@@ -185,7 +214,6 @@ function checkForFruit() {
             extraFruits[i].direction
           );
         } else {
-          strokeWeight( ceil( random(5) ) );
           rotate( ( extraFruits[i].direction * frameCount ) / extraFruits[i].rotationSpeed );
           translate( extraFruits[i].shiftVal, extraFruits[i].shiftVal ); //maybe pass 0 as the other parameter
           if ( extraFruits[i].shape == 1 ) {
@@ -217,35 +245,104 @@ function checkForFruit() {
 
       } else if ( extraFruits[i].movePattern == 1 ) {
         // call left/right
+        /* Should pretty much be the same as above except without the rotate
+         I think translate will also be a little different too. I will
+         need to write a new star function for these though,
+         !! Might just be the same star function, with 0 passed for x instead
+         but I still them to spin
+         locally, so I need to look at the rotate /translate order */
+
+        translate( extraFruits[i].shiftVal, 0 );
         if ( extraFruits[i].shape == 0 ) {
-
-        } else if ( extraFruits[i].shape == 1 ) {
-
+          rotatingStar(
+            0,
+            0,
+            extraFruits[i].length1 * random(),
+            extraFruits[i].length2 * random(),
+            ceil( random( 3, 15 ) ),
+            extraFruits[i].rotationSpeed,
+            extraFruits[i].direction
+          );
+        }
+        if ( extraFruits[i].shape == 1 ) {
+          /*
+             Draw triangles, parameter passed syntax is point1, p2, then p3
+             They were chosen so that the triangle shapes wouldn't always be
+             isocles or right triangles.
+          */
+          rotate( ( extraFruits[i].direction * frameCount ) / extraFruits[i].rotationSpeed );
+          let temp = ceil( random( 0, 8 ) );
+          triangle(
+            extraFruits[i].length1 / ( temp + 2 ), 0,
+            0, extraFruits[i].length2 / ( temp - 2 ),
+            extraFruits[i].length1, extraFruits[i].length2
+           );
         } else if ( extraFruits[i].shape == 2 ) {
-
+          //rectangles/squares
+          rotate( ( extraFruits[i].direction * frameCount ) / extraFruits[i].rotationSpeed );
+          let xAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+          let yAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+          rect( 0, 0, extraFruits[i].length1 + xAdjustment, extraFruits[i].length2 + yAdjustment );
         } else if ( extraFruits[i].shape == 3 ) {
-
+          //ellipses/circles
+          rotate( ( extraFruits[i].direction * frameCount ) / extraFruits[i].rotationSpeed );
+          let xAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+          let yAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+          ellipse( 0, 0, extraFruits[i].length1 + xAdjustment, extraFruits[i].length2 + yAdjustment );
         } else {
           console.log( 'Unknown shape state' );
         }
-
       } else if ( extraFruits[i].movePattern == 2 ) {
         // call up/down
+        translate( 0, extraFruits[i].shiftVal );
         if ( extraFruits[i].shape == 0 ) {
-
-        } else if ( extraFruits[i].shape == 1 ) {
-
+          rotatingStar(
+            0,
+            0,
+            extraFruits[i].length1 * random(),
+            extraFruits[i].length2 * random(),
+            ceil( random( 3, 15 ) ),
+            extraFruits[i].rotationSpeed,
+            extraFruits[i].direction
+          );
+        }
+        if ( extraFruits[i].shape == 1 ) {
+          /*
+             Draw triangles, parameter passed syntax is point1, p2, then p3
+             They were chosen so that the triangle shapes wouldn't always be
+             isocles or right triangles.
+          */
+          rotate( ( extraFruits[i].direction * frameCount ) / extraFruits[i].rotationSpeed );
+          let temp = ceil( random( 0, 8 ) );
+          triangle(
+            extraFruits[i].length1 / ( temp + 2 ), 0,
+            0, extraFruits[i].length2 / ( temp - 2 ),
+            extraFruits[i].length1, extraFruits[i].length2
+           );
         } else if ( extraFruits[i].shape == 2 ) {
-
+          //rectangles/squares
+          rotate( ( extraFruits[i].direction * frameCount ) / extraFruits[i].rotationSpeed );
+          let xAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+          let yAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+          rect( 0, 0, extraFruits[i].length1 + xAdjustment, extraFruits[i].length2 + yAdjustment );
         } else if ( extraFruits[i].shape == 3 ) {
-
+          //ellipses/circles
+          rotate( ( extraFruits[i].direction * frameCount ) / extraFruits[i].rotationSpeed );
+          let xAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+          let yAdjustment = ceil( random( -ADJUSTMENT_CONST, ADJUSTMENT_CONST ) );
+          ellipse( 0, 0, extraFruits[i].length1 + xAdjustment, extraFruits[i].length2 + yAdjustment );
         } else {
           console.log( 'Unknown shape state' );
         }
-
+      } else {
+        console.log( 'Unknown movement pattern' );
       }
 
-      /* This part moves the shape */
+      /*
+      This part handles the counter used for the path the object takes
+      Can be though of as the time parameter of the object, although
+      we can reverse this.
+      */
       if ( extraFruits[i].movePattern == 0 ) {
         extraFruits[i].shiftVal++;
         if ( extraFruits[i].shiftVal > ( width / 2 ) ) {
@@ -296,6 +393,13 @@ function checkForFruit() {
 }
 
 function moveSnake() {
+
+  if ( nextDirection ) {
+    nextDirection = null;
+    direction = nextDirection;
+    return;
+  }
+
   if ( xCor[xCor.length - 1] > width ||
     xCor[xCor.length - 1] < 0 ||
     yCor[yCor.length - 1] > height ||
@@ -305,13 +409,14 @@ function moveSnake() {
 
     let newDirection = random( [1, 2] );
     if ( direction == "right" || direction == "left" ) {
-
+      nextDirection = ( direction == 'right' ) ? 'left' : 'right';
       if ( newDirection == 1 ) {
         direction = "up";
       } else {
         direction = "down";
       }
     } else {
+      nextDirection = ( direction == 'up' ) ? 'down' : 'up';
       if ( newDirection == 1 ) {
         direction = "right";
       } else {
@@ -442,11 +547,6 @@ function rotatingStar(x, y, radius1, radius2, npoints, rotationSpeed, direction)
   }
   endShape(CLOSE);
   //pop();
-}
-
-function RotatingEllipse( x, y, w, h, rotationSpeed, direction ) {
-  strokeWeight( ceil( random(5) ) );
-  rotate( ( direction * frameCount ) / rotationSpeed );
 }
 
 /* Some random code I was playing around with that uses the star function
