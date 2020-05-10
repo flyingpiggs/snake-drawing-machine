@@ -92,9 +92,10 @@ const INTRO = [
   'It\'s a "feature"',
   'Snake will disappear offscreen',
   'but should come right back once keys are pressed',
-  'Q controls the shape direction',
-  'W controls what kind of shape is drawn',
-  "Press 's' to save the image"  
+  'Q cycles through the shape directions',
+  'W cycles through what kind of shape is drawn',
+  "Press 's' to save the image",
+  'P for pause, o for unpause (pronounced with an exaggerated u to sound like an o)'
 ];
 
 function displayIntro() {
