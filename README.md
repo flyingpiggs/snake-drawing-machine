@@ -1,7 +1,13 @@
 # Snake Drawing Machine
+
 *Instructor: Dr. Tiffany Funk*
+
 *Assignment: Drawing Machine*
+
 *Peter Chen, chen172*
+
+*Link to webpage: *
+https://flyingpiggs.github.io/snake-drawing-machine/
 
 ### Prompt Given (paraphrased)
 > Allow the user to interact with the drawing machine using at least the mouse and optionally keyboard too 
