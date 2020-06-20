@@ -6,7 +6,7 @@
 
 *Peter Chen, chen172*
 
-*Link to webpage: *
+*Link to webpage:*
 https://flyingpiggs.github.io/snake-drawing-machine/
 
 ### Prompt Given (paraphrased)
